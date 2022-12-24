@@ -446,8 +446,8 @@ class UserInfo(models.Model):
 >
 > ```python
 > REST_FRAMEWORK = {
->     "UNAUTHENTICATED_USER": lambda: None,
->     "UNAUTHENTICATED_TOKEN": lambda: None,
+>        "UNAUTHENTICATED_USER": lambda: None,
+>        "UNAUTHENTICATED_TOKEN": lambda: None,
 > }
 > ```
 
