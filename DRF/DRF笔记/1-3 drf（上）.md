@@ -806,7 +806,7 @@ REST_FRAMEWORK = {
     - 返回None，继续执行后续的认证类（都未认证成功，request.user 和 auth有默认值，也可以全局配置）
     - 返回2个元素的元组，中断
     - 抛出 `AuthenticationFailed`，中断
-  - 结果：在 `request.user` 和 `request.auth` 赋值（后续代码可以使用）
+  - 结果：在 `request.user` 和 `request.auth` 赋值（**后续代码可以使用**）
 - 权限
   - 过程：执行所有的权限类的`has_permission`方法，只有所有都返回True时，才表示具有权限
   - 结果：有权限则可以执行后续的视图，无权限则直接返回 自定义的错误信息
