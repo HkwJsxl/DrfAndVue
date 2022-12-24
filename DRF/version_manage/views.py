@@ -14,6 +14,8 @@ class ApiView(APIView):
         current_version = request.version  # 查看请求的版本
         print(current_version)
         print(request.query_params)
+        version_obj = request.versioning_scheme  # 版本类
+        print(version_obj)
 
         """反向生成url"""
         url = request.versioning_scheme.reverse('version_manage:api_view', request=request)
