@@ -3,10 +3,10 @@ import uuid
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.versioning import QueryParameterVersioning
-from rest_framework.authentication import BaseAuthentication
 
 from auth_permission import models
 from utils.auth_related import TokenAuthentication
+from utils.permission_related import RolePermission
 
 
 class RegView(APIView):
@@ -18,7 +18,7 @@ class RegView(APIView):
         password = request.data.get('password')
         print(request.data)
         token = uuid.uuid1()
-        user_obj = models.UserInfo.objects.create(username=username, password=password, token=token)
+        models.UserInfo.objects.create(username=username, password=password, token=token)
 
         return Response({'status': 0, 'message': {'current_version': current_version, 'token': token}})
 
@@ -48,3 +48,12 @@ class OrderView(APIView):
         if request.user:
             return Response({'status': 0, 'message': {'auth': '认证成功!', 'data': '人名币玩家!'}})
         return Response({'status': 0, 'message': {'auth': '认证失败!', 'data': '普通玩家!'}})
+
+
+class AdminView(APIView):
+    permission_classes = [RolePermission, ]
+
+    def get(self, request):
+        return Response({'status': 0, 'message': {'permission': '权限通过!'}})
+
+

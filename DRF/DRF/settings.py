@@ -130,4 +130,5 @@ REST_FRAMEWORK = {
     # "UNAUTHENTICATED_USER": lambda: None,  # 认证返回值
     # "UNAUTHENTICATED_TOKEN": lambda: None,
     # "DEFAULT_AUTHENTICATION_CLASSES": ['utils.auth_related.TokenAuthentication', ]  # 全局配置
+    # "DEFAULT_PERMISSION_CLASSES": ["utils.permission_related.RolePermission", ]
 }

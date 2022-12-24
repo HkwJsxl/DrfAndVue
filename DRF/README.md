@@ -12,6 +12,11 @@ from rest_framework.response import Response
 from rest_framework.versioning import QueryParameterVersioning, URLPathVersioning, AcceptHeaderVersioning, HostNameVersioning, NamespaceVersioning
 # 反向生成url~~~~
 request.versioning_scheme.reverse('视图别名', args=('v10',), request=request)
+# 认证
+from rest_framework.authentication import BaseAuthentication
+from rest_framework.exceptions import AuthenticationFailed
+# 权限
+from rest_framework.permissions import BasePermission
 ~~~
 
 ### setting.py
@@ -25,7 +30,8 @@ REST_FRAMEWORK = {
     
     # "UNAUTHENTICATED_USER": lambda: None,  # 认证返回值
     # "UNAUTHENTICATED_TOKEN": lambda: None,
-    "DEFAULT_AUTHENTICATION_CLASSES": ['utils.auth_related.TokenAuthentication', ]  # 全局配置
+    # "DEFAULT_AUTHENTICATION_CLASSES": ['utils.auth_related.TokenAuthentication', ]  # 全局配置
+    # "DEFAULT_PERMISSION_CLASSES": ["utils.permission_related.RolePermission", ]
 }
 ~~~
 

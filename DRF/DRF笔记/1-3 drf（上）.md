@@ -614,10 +614,6 @@ class PayView(APIView):
 
 
 
-
-
-
-
 **关于多个权限类**
 
 当开发过程中需要用户同时具备多个权限（缺一不可）时，可以用多个权限类来实现。
@@ -790,8 +786,6 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES":["xxxx.xxxx.xx.类名","xxxx.xxxx.xx.类名",]
 }
 ```
-
-
 
 
 
