@@ -26,15 +26,17 @@ class RegView(APIView):
 class LoginView(APIView):
     versioning_class = QueryParameterVersioning
     authentication_classes = [TokenAuthentication, ]
+    permission_classes = [RolePermission, ]
 
     def post(self, request):
         current_version = request.version
 
         username = request.data.get('username')
         password = request.data.get('password')
-        user_obj = models.UserInfo.objects.filter(username=username, password=password)
+        token = request.auth
+        user_obj = models.UserInfo.objects.filter(username=username, password=password, token=token)
         if not user_obj:
-            return Response({'status': 0, 'message': {'current_version': current_version, 'auth': '用户名或密码错误!'}})
+            return Response({'status': 0, 'message': {'current_version': current_version, 'auth': '用户名或密码错误,并检查token!'}})
 
         print(request.auth)  # 返回的token
         print(request.user)  # 用户对象
