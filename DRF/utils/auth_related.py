@@ -13,6 +13,7 @@ class TokenAuthentication(BaseAuthentication):
         user_obj = models.UserInfo.objects.filter(token=token).first()
         if not user_obj:
             raise AuthenticationFailed({'status': 0, 'message': {'current_version': current_version, 'auth': 'token认证失败!'}})
+        # 认证的返回值后续可以在视图中使用(request.user, request.auth,)
         return user_obj, token
 
     def authenticate_header(self, request):
