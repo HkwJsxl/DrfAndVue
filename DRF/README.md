@@ -22,6 +22,10 @@ REST_FRAMEWORK = {
     "DEFAULT_VERSION": "v1",  # 版本的默认值
     "ALLOWED_VERSIONS": ["v1", "v2", "v3"],  # 允许的版本号
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.QueryParameterVersioning"  # 全局配置
+    
+    # "UNAUTHENTICATED_USER": lambda: None,  # 认证返回值
+    # "UNAUTHENTICATED_TOKEN": lambda: None,
+    "DEFAULT_AUTHENTICATION_CLASSES": ['utils.auth_related.TokenAuthentication', ]  # 全局配置
 }
 ~~~
 
