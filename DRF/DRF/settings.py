@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'version_manage.apps.VersionManageConfig',
     'auth_permission.apps.AuthPermissionConfig',
+    'access_frequency.apps.AccessFrequencyConfig',
 ]
 
 MIDDLEWARE = [
