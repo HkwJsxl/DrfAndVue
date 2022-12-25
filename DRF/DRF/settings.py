@@ -104,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
+# LANGUAGE_CODE = "zh-hans"  # 语言更改为汉字（数据校验错误信息...）
 
 TIME_ZONE = "UTC"
 
@@ -132,4 +133,20 @@ REST_FRAMEWORK = {
     # "UNAUTHENTICATED_TOKEN": lambda: None,
     # "DEFAULT_AUTHENTICATION_CLASSES": ['utils.auth_related.TokenAuthentication', ]  # 全局配置
     # "DEFAULT_PERMISSION_CLASSES": ["utils.permission_related.RolePermission", ]
+
+    # "DEFAULT_THROTTLE_CLASSES": ["utils.throttle_related.RateThrottle", ],  # 全局配置
+    # "DEFAULT_THROTTLE_RATES": {
+    #     "user_access": "10/m",
+    # }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "123456",
+        }
+    }
 }
