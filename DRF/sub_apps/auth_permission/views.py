@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.versioning import QueryParameterVersioning
 
-from auth_permission import models
+from sub_apps.auth_permission import models
 from utils.auth_related import TokenAuthentication
 from utils.permission_related import RolePermission
 

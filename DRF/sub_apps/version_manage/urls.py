@@ -1,5 +1,5 @@
 from django.urls import path
-from version_manage import views
+from sub_apps.version_manage import views
 
 urlpatterns = [
     path('', views.ApiView.as_view(), name='api_view'),

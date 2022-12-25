@@ -1,5 +1,5 @@
 from django.urls import path
-from auth_permission import views
+from sub_apps.auth_permission import views
 
 urlpatterns = [
     # 认证
