@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'version_manage.apps.VersionManageConfig',
     'auth_permission.apps.AuthPermissionConfig',
     'access_frequency.apps.AccessFrequencyConfig',
+    'serializer_related.apps.SerializerRelatedConfig',
 ]
 
 MIDDLEWARE = [
