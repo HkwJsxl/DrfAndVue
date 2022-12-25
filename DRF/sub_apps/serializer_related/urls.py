@@ -1,5 +1,5 @@
 from django.urls import path
-from serializer_related import views
+from sub_apps.serializer_related import views
 
 urlpatterns = [
     path('index/', views.IndexView.as_view(), name='index_view'),

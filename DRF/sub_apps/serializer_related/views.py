@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from serializer_related.ser import UserSerializer, User2Serializer
+from sub_apps.serializer_related.ser import UserSerializer, User2Serializer
 
 
 class IndexView(APIView):
