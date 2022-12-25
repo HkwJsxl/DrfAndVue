@@ -36,10 +36,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'rest_framework',
-    'version_manage.apps.VersionManageConfig',
-    'auth_permission.apps.AuthPermissionConfig',
-    'access_frequency.apps.AccessFrequencyConfig',
-    'serializer_related.apps.SerializerRelatedConfig',
+    'sub_apps.version_manage.apps.VersionManageConfig',
+    'sub_apps.auth_permission.apps.AuthPermissionConfig',
+    'sub_apps.access_frequency.apps.AccessFrequencyConfig',
+    'sub_apps.serializer_related.apps.SerializerRelatedConfig',
 ]
 
 MIDDLEWARE = [

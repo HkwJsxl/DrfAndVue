@@ -13,15 +13,20 @@ class UserSerializer(serializers.Serializer):
     depart = serializers.IntegerField(default=1)
 
 
-class User2Serializer(serializers.Serializer):
+class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
-        models = models.UserInfo
+        model = models.UserInfo
         fields = [
             'username',
             'password',
             'age',
             'email',
+            'depart'
         ]
         extra_kwargs = {
             'username': {'min_length': 3, 'max_length': 18},
         }
+
+    def create(self, validated_data):
+        # print('validated_data: ', validated_data)
+        return models.UserInfo.objects.create(**validated_data)

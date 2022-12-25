@@ -310,16 +310,6 @@ class UserInfo(models.Model):
 
 
 
-
-
-
-
-
-
-
-
-
-
 #### 7.2 序列化
 
 通过ORM从数据库获取到的 QuerySet 或 对象 均可以被序列化为 json 格式数据。

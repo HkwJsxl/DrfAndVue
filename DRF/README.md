@@ -49,7 +49,10 @@ class RateThrottle(SimpleRateThrottle):
 ### setting.py
 
 ~~~python
-# LANGUAGE_CODE = "zh-hans"  # 语言更改为汉字（数据校验错误信息...）
+#把英文改为中文
+LANGUAGE_CODE = 'zh-hans'
+#把国际时区改为中国时区
+TIME_ZONE = 'Asia/Shanghai'
 
 REST_FRAMEWORK = {
     "VERSION_PARAM": "version",  # 指定版本的key

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from sub_apps.serializer_related.ser import UserSerializer, User2Serializer
+from sub_apps.serializer_related.ser import UserSerializer, UserModelSerializer
 
 
 class IndexView(APIView):
@@ -20,9 +20,11 @@ class IndexView(APIView):
 
 class Index2View(APIView):
     def post(self, request):
-        ser_obj = User2Serializer(data=request.data)
+        print(request.data)
+        ser_obj = UserModelSerializer(data=request.data)
         if not ser_obj.is_valid():
-            return Response({'status': 0, 'message': {'data': ser_obj.errors}})
-
+            return Response({'status': 1005, 'message': {'data': ser_obj.errors}})
+        ser_obj.save()
         print(ser_obj.validated_data)
         return Response({'status': 0, 'message': '校验成功'})
+
