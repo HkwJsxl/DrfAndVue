@@ -30,7 +30,6 @@ class UserInfo(models.Model):
         verbose_name="角色", to="Role",
         through='Userinfo2Roles',
         through_fields=('user', 'role'),
-
     )
 
 

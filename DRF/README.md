@@ -44,6 +44,9 @@ class RateThrottle(SimpleRateThrottle):
             'detail': '需等待{}s才能访问'.format(int(wait))
         }
         raise ThrottledException(detail)
+"""钩子错误信息"""
+from rest_framework.exceptions import ValidationError
+
 ~~~
 
 ### setting.py
@@ -97,4 +100,12 @@ class Request:
             return getattr(self._request, attr)
         except AttributeError:
             return self.__getattribute__(attr)
+~~~
+
+### read_only,write_only区别
+
+~~~python
+ModelSerializer反序列化的时候，设置read_only=True可以忽略传过来的字段，不写入到数据库。（不想让用户设置某个值）
+从数据库读出来的数据，序列化返回出来的时候，不显示某个字段，可以设置write_only=True。（不想让用户看到某个值）
+**两者不能同时设置**
 ~~~

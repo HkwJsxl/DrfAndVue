@@ -3,7 +3,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from sub_apps.serializer_related.ser import UserSerializer, UserModelSerializer, Index3ModelSerializer
+from sub_apps.serializer_related.ser import UserSerializer, UserModelSerializer, Index3ModelSerializer, \
+    Index4ModelSerializer, Index5ModelSerializer
 from sub_apps.serializer_related import models
 
 
@@ -34,4 +35,26 @@ class Index3View(APIView):
     def get(self, request):
         user_queryset = models.UserInfo.objects.all()
         ser_obj = Index3ModelSerializer(instance=user_queryset, many=True)
+        return Response({'status': 0, 'message': {'data': ser_obj.data}})
+
+
+class Index4View(APIView):
+    def get(self, request):
+        user_queryset = models.UserInfo.objects.all()
+        ser_obj = Index4ModelSerializer(instance=user_queryset, many=True)
+        return Response({'status': 0, 'message': {'data': ser_obj.data}})
+
+
+class Index5View(APIView):
+    def get(self, request):
+        user_queryset = models.UserInfo.objects.all()
+        ser_obj = Index5ModelSerializer(instance=user_queryset, many=True)
+        return Response({'status': 0, 'message': {'data': ser_obj.data}})
+
+    def post(self, request):
+        ser_obj = Index5ModelSerializer(data=request.data)
+        if not ser_obj.is_valid():
+            return Response({'status': 1005, 'message': {'data': ser_obj.errors}})
+        ser_obj.save()
+        print(ser_obj.data)
         return Response({'status': 0, 'message': {'data': ser_obj.data}})
