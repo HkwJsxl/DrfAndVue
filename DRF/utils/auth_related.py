@@ -1,7 +1,7 @@
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 
-from auth_permission import models
+from sub_apps.auth_permission import models
 
 
 class TokenAuthentication(BaseAuthentication):
