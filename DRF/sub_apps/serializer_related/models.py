@@ -26,4 +26,14 @@ class UserInfo(models.Model):
     depart = models.ForeignKey(verbose_name="部门", to="Department", on_delete=models.CASCADE)
 
     # 多对多
-    roles = models.ManyToManyField(verbose_name="角色", to="Role")
+    roles = models.ManyToManyField(
+        verbose_name="角色", to="Role",
+        through='Userinfo2Roles',
+        through_fields=('user', 'role'),
+
+    )
+
+
+class Userinfo2Roles(models.Model):
+    user = models.ForeignKey(to='UserInfo', on_delete=models.CASCADE)
+    role = models.ForeignKey(to='Role', on_delete=models.CASCADE)

@@ -3,7 +3,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from sub_apps.serializer_related.ser import UserSerializer, UserModelSerializer
+from sub_apps.serializer_related.ser import UserSerializer, UserModelSerializer, Index3ModelSerializer
+from sub_apps.serializer_related import models
 
 
 class IndexView(APIView):
@@ -28,3 +29,9 @@ class Index2View(APIView):
         print(ser_obj.validated_data)
         return Response({'status': 0, 'message': '校验成功'})
 
+
+class Index3View(APIView):
+    def get(self, request):
+        user_queryset = models.UserInfo.objects.all()
+        ser_obj = Index3ModelSerializer(instance=user_queryset, many=True)
+        return Response({'status': 0, 'message': {'data': ser_obj.data}})
