@@ -100,6 +100,7 @@ REST_FRAMEWORK = {
     # }
     
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', ]  # 筛选
+    # 'PAGE_SIZE': 2,  # 分页
 }
 
 """缓存"""
