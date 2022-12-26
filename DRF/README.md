@@ -1,5 +1,15 @@
 # DRF
 
+# 介绍
+
+- sub_apps
+  - 应用
+  - version_manage：版本控制
+  - auth_permission：认证和权限，utils/auth_related&permission_related
+  - access_frequency：频率控制，utils/throttle_related
+  - serializer_related：序列化
+  - views_related：视图相关，utils/filter_related&page_related
+
 ## 常用
 
 ### 模块导入和语句
