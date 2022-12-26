@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'sub_apps.auth_permission.apps.AuthPermissionConfig',
     'sub_apps.access_frequency.apps.AccessFrequencyConfig',
     'sub_apps.serializer_related.apps.SerializerRelatedConfig',
+    'sub_apps.views_related.apps.ViewsRelatedConfig',
 ]
 
 MIDDLEWARE = [

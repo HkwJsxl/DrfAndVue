@@ -11,5 +11,6 @@ urlpatterns = [
          include(('sub_apps.access_frequency.urls', 'sub_apps.access_frequency'), namespace='access_frequency')),
     path('serializer_related/',
          include(('sub_apps.serializer_related.urls', 'sub_apps.serializer_related'), namespace='serializer_related')),
-
+    path('views_related/',
+         include(('sub_apps.views_related.urls', 'sub_apps.views_related'), namespace='views_related')),
 ]
