@@ -1340,7 +1340,7 @@ class UserView(ModelViewSet):
 'istartswith': _('starts with'),
 'endswith': _('ends with'),  
 'iendswith': _('ends with'),
-    
+
 'gt': _('is greater than'),
 'gte': _('is greater than or equal to'),
 'lt': _('is less than'),

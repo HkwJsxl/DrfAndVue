@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'rest_framework',
+    'django_filters',
     'sub_apps.version_manage.apps.VersionManageConfig',
     'sub_apps.auth_permission.apps.AuthPermissionConfig',
     'sub_apps.access_frequency.apps.AccessFrequencyConfig',
@@ -140,6 +141,9 @@ REST_FRAMEWORK = {
     # "DEFAULT_THROTTLE_RATES": {
     #     "user_access": "10/m",
     # }
+
+    # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', ]  # 筛选
+    # 'PAGE_SIZE': 2,  # 分页
 }
 
 CACHES = {

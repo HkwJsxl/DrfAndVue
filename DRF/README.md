@@ -76,13 +76,15 @@ REST_FRAMEWORK = {
     
     # "UNAUTHENTICATED_USER": lambda: None,  # 认证返回值
     # "UNAUTHENTICATED_TOKEN": lambda: None,
-    # "DEFAULT_AUTHENTICATION_CLASSES": ['utils.auth_related.TokenAuthentication', ]  # 全局配置
-    # "DEFAULT_PERMISSION_CLASSES": ["utils.permission_related.RolePermission", ]
+    # "DEFAULT_AUTHENTICATION_CLASSES": ['utils.auth_related.TokenAuthentication', ]  # 认证
+    # "DEFAULT_PERMISSION_CLASSES": ["utils.permission_related.RolePermission", ]  # 权限
     
-    # "DEFAULT_THROTTLE_CLASSES": ["utils.throttle_related.RateThrottle", ],  # 全局配置
+    # "DEFAULT_THROTTLE_CLASSES": ["utils.throttle_related.RateThrottle", ],  # 频率限制
     # "DEFAULT_THROTTLE_RATES": {
     #     "user_access": "10/m",
     # }
+    
+    # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', ]  # 筛选
 }
 
 """缓存"""
