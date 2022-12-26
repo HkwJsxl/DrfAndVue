@@ -46,7 +46,18 @@ class RateThrottle(SimpleRateThrottle):
         raise ThrottledException(detail)
 """钩子错误信息"""
 from rest_framework.exceptions import ValidationError
-
+"""视图"""
+from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet, ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ViewSet, ViewSetMixin
+from rest_framework.generics import (
+    GenericAPIView,
+    ListAPIView,
+    CreateAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+)
 ~~~
 
 ### setting.py

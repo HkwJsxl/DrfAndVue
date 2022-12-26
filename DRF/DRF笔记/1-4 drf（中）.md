@@ -691,7 +691,7 @@ from app01 import views
 
 urlpatterns = [
     path('api/users/', views.UserView.as_view({"get":"list","post":"create"})),
-    path('api/users/<int:pk>/', views.UserView.as_view({"get":"retrieve","put":"update","patch":"partial_update","delete":"destory"})),
+    path('api/users/<int:pk>/', views.UserView.as_view({"get":"retrieve","put":"update","patch":"partial_update","delete":"destroy"})),
 ]
 ```
 
@@ -731,7 +731,7 @@ class UserView(GenericViewSet):
         # 业务逻辑：局部修改
         return Response({'code': 0, 'data': "..."})
     
-    def destory(self, request,pk):
+    def destroy(self, request,pk):
         # 业务逻辑：删除
         return Response({'code': 0, 'data': "..."})
 ```
@@ -1011,46 +1011,6 @@ class UserView(ModelViewSet):
   ```
 
 - 根据自己公司的习惯，自定义 ：`ModelViewSet` 或 `CreateModelMixin、ListModelMixin...`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
