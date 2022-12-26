@@ -8,6 +8,8 @@
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
+"""状态码"""
+from rest_framework import status
 """版本控制"""
 from rest_framework.versioning import QueryParameterVersioning, URLPathVersioning, AcceptHeaderVersioning, HostNameVersioning, NamespaceVersioning
 """反向生成url"""
@@ -58,6 +60,19 @@ from rest_framework.generics import (
     UpdateAPIView,
     DestroyAPIView,
 )
+"""筛选"""
+from rest_framework.filters import BaseFilterBackend
+from django_filters import FilterSet, filters
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter, SearchFilter
+"""分页"""
+from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
+"""解析器"""
+from rest_framework.parsers import JSONParser, FormParser, MultiPartParser, FileUploadParser
+"""路由"""
+from rest_framework import routers
+router = routers.SimpleRouter()
+router.register(r'router', views.UserRouterModelView)
 ~~~
 
 ### setting.py
