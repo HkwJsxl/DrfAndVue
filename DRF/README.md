@@ -148,3 +148,17 @@ ModelSerializer反序列化的时候，设置read_only=True可以忽略传过来
 从数据库读出来的数据，序列化返回出来的时候，不显示某个字段，可以设置write_only=True。（不想让用户看到某个值）
 **两者不能同时设置**
 ~~~
+
+### Serializer的many参数是如何根据传入不同布尔值生成不同的对象的
+
+~~~python
+"""
+__new__方法是构建对象的，源码内部重写了__new__方法
+"""
+def __new__(cls, *args, **kwargs):
+    if kwargs.pop('many', False):
+        return cls.many_init(*args, **kwargs)
+    return super().__new__(cls, *args, **kwargs)
+~~~
+
+
