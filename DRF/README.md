@@ -69,7 +69,12 @@ from rest_framework.generics import (
     RetrieveAPIView,
     UpdateAPIView,
     DestroyAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateAPIView,
+    RetrieveDestroyAPIView,
+    RetrieveUpdateDestroyAPIView,
 )
+from rest_framework.mixins import CreateModelMixin, ListModelMixin, DestroyModelMixin, UpdateModelMixin, RetrieveModelMixin
 """筛选"""
 from rest_framework.filters import BaseFilterBackend
 from django_filters import FilterSet, filters
@@ -126,6 +131,70 @@ CACHES = {
 }
 ~~~
 
+## 知识点
+
+### Serializer高级用法
+
+- source的使用
+
+~~~
+可以改字段名字：要展示的名字=serializers.CharField(source='数据库字段名')
+可以.跨表：xxx=serializers.CharField(source='publish.email')
+可以执行方法：xxx=serializers.CharField(source='test')  # test是表模型中的方法
+~~~
+
+- SerializerMethodField
+
+~~~python
+# 需要有个配套方法，get_字段名，返回值就是要显示的东西
+from django.forms.models import model_to_dict
+from rest_framework import serializers
+roles = serializers.SerializerMethodField()
+def get_roles(self, instance):
+    role_queryset = instance.roles.all()
+    return [model_to_dict(item, ['id', 'title']) for item in role_queryset]
+~~~
+
+### GenericAPIView的视图子类
+
+~~~
+（1）CreateAPIView
+提供了post方法，内部调用了create方法
+继承自： GenericAPIView、CreateModelMixin
+
+（2）ListAPIView
+提供了get方法，内部调用了list方法
+继承自：GenericAPIView、ListModelMixin
+
+（3）RetrieveAPIView
+提供了get方法，内部调用了retrieve方法
+继承自: GenericAPIView、RetrieveModelMixin
+
+（4）DestroyAPIView
+提供了delete方法，内部调用了Destroy方法
+继承自：GenericAPIView、DestroyModelMixin
+
+（5）UpdateAPIView
+提供了put和patch方法，内部调用了update和partial_update方法
+继承自：GenericAPIView、UpdateModelMixin
+
+（6）ListCreateAPIView
+提供了get和post方法，内部调用了list和create方法
+继承自：GenericAPIView、ListModelMixin、CreateModelMixin
+
+（7）RetrieveUpdateAPIView
+提供 get、put、patch方法
+继承自： GenericAPIView、RetrieveModelMixin、UpdateModelMixin
+
+（8）RetrieveDestroyAPIView
+提供 get、delete方法
+继承自：GenericAPIView、RetrieveModelMixin、DestroyModelMixin
+
+（9）RetrieveUpdateDestroyAPIView
+提供 get、put、patch、delete方法
+继承自：GenericAPIView、RetrieveModelMixin、UpdateModelMixin、DestroyModelMixin
+~~~
+
 ## 问题
 
 ### DRF在使用request时如何实现不用点击method从而获取里面的属性
@@ -143,7 +212,7 @@ class Request:
 
 ### read_only,write_only区别
 
-~~~python
+~~~
 ModelSerializer反序列化的时候，设置read_only=True可以忽略传过来的字段，不写入到数据库。（不想让用户设置某个值）
 从数据库读出来的数据，序列化返回出来的时候，不显示某个字段，可以设置write_only=True。（不想让用户看到某个值）
 **两者不能同时设置**
@@ -160,5 +229,16 @@ def __new__(cls, *args, **kwargs):
         return cls.many_init(*args, **kwargs)
     return super().__new__(cls, *args, **kwargs)
 ~~~
+
+### 序列化组件源码分析
+
+~~~
+序列化组件，先调用__new__方法，如果many=True，生成ListSerializer对象，如果为False，生成Serializer对象
+序列化对象.data方法--调用父类data方法---调用对象自己的to_representation（自定义的序列化类无此方法，去父类找）
+Aerializer类里有to_representation方法，for循环执行attribute = field.get_attribute(instance)
+再去Field类里去找get_attribute方法，self.source_attrs就是被切分的source，然后执行get_attribute方法，source_attrs
+当参数传过去，判断是方法就加括号执行，是属性就把值取出来
+~~~
+
 
 
