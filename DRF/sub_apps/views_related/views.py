@@ -122,3 +122,11 @@ class UserParserView(APIView):
         print(request.data)
         print(request.data.get('file'))
         return Response({'status': 0})
+
+
+class Top5ModelView(ModelViewSet):
+    queryset = models.UserInfo.objects.all().order_by('pk')[:5]
+    serializer_class = ser_view.UserModelSerializer
+
+    def list(self, request, *args, **kwargs):
+        return super(Top5ModelView, self).list(request, *args, **kwargs)

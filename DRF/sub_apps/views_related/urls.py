@@ -43,6 +43,11 @@ urlpatterns = [
 
     # parser
     path('users/parser/', views.UserParserView.as_view(), name='user_parser_view'),
+
+    # 获取前五条数据
+    path('top5/', views.Top5ModelView.as_view(actions={
+        'get': 'list',
+    }), name='top5_view'),
 ]
 
 # urlpatterns += router.urls
