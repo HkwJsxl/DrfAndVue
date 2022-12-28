@@ -195,6 +195,17 @@ def get_roles(self, instance):
 继承自：GenericAPIView、RetrieveModelMixin、UpdateModelMixin、DestroyModelMixin
 ~~~
 
+### routers
+
+~~~python
+from rest_framework import routers
+# router = routers.DefaultRouter()
+router = routers.SimpleRouter()
+router.register(r'router', views.UserRouterModelView, basename='router')
+urlpatterns = []
+urlpatterns += router.urls
+~~~
+
 ## 问题
 
 ### DRF在使用request时如何实现不用点击method从而获取里面的属性
