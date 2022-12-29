@@ -1,12 +1,6 @@
 from django.urls import path
 from sub_apps.auth_permission import views
 
-from rest_framework import routers
-
-# 认证-token带在请求头里面
-# router = routers.SimpleRouter()
-# router.register(r'token_login', views.TokenHeaderLoginView)
-
 urlpatterns = [
     # 认证
     path('reg/', views.RegView.as_view(), name='reg_view'),
@@ -18,5 +12,3 @@ urlpatterns = [
     # 认证-token带在请求头里面
     path('token_login/', views.TokenHeaderLoginView.as_view({'post': 'post'}), name='token_login_view'),
 ]
-
-# urlpatterns += router.urls
