@@ -3,10 +3,12 @@ import uuid
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.versioning import QueryParameterVersioning
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from sub_apps.auth_permission import models
-from utils.auth_related import TokenAuthentication
+from utils.auth_related import TokenAuthentication, TokenHeaderAuthentication
 from utils.permission_related import RolePermission
+from sub_apps.auth_permission.ser import UserSerializers
 
 
 class RegView(APIView):
@@ -36,7 +38,8 @@ class LoginView(APIView):
         token = request.auth
         user_obj = models.UserInfo.objects.filter(username=username, password=password, token=token)
         if not user_obj:
-            return Response({'status': 0, 'message': {'current_version': current_version, 'auth': '用户名或密码错误,并检查token!'}})
+            return Response(
+                {'status': 0, 'message': {'current_version': current_version, 'auth': '用户名或密码错误,并检查token!'}})
 
         print(request.auth)  # 返回的token
         print(request.user)  # 用户对象
@@ -59,3 +62,18 @@ class AdminView(APIView):
         return Response({'status': 0, 'message': {'permission': '权限通过!'}})
 
 
+class TokenHeaderLoginView(GenericViewSet):
+    authentication_classes = [TokenHeaderAuthentication, ]
+
+    queryset = models.UserInfo.objects.all()
+    serializer_class = UserSerializers
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        token = request.auth
+        user_obj = models.UserInfo.objects.filter(username=username, password=password, token=token)
+        if not user_obj:
+            return Response(
+                {'status': 1006, 'message': {'auth': '用户名或密码错误,并检查token!'}})
+        return Response({'status': 0, 'message': {'is_login': '登录成功!'}})
