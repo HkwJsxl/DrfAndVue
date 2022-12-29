@@ -15,4 +15,7 @@ urlpatterns = [
          include(('sub_apps.views_related.urls', 'sub_apps.views_related'), namespace='views_related')),
     path('exception_response/',
          include(('sub_apps.exception_response.urls', 'sub_apps.exception_response'), namespace='exception_response')),
+    path('practice/',
+         include(('sub_apps.practice.urls', 'sub_apps.practice'), namespace='practice')),
+
 ]
