@@ -144,6 +144,8 @@ REST_FRAMEWORK = {
 
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', ]  # 筛选
     # 'PAGE_SIZE': 2,  # 分页
+
+    'EXCEPTION_HANDLER': 'utils.exception_response.re_exception_handler',  # 异常处理
 }
 
 CACHES = {

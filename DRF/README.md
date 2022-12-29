@@ -9,6 +9,7 @@
   - access_frequency：频率控制，utils/throttle_related
   - serializer_related：序列化
   - views_related：视图相关，utils/filter_related&page_related
+  - exception_response：异常处理和自定义Response，utils/exception_response
 
 ## 常用
 
@@ -88,6 +89,21 @@ from rest_framework.parsers import JSONParser, FormParser, MultiPartParser, File
 from rest_framework import routers
 router = routers.SimpleRouter()
 router.register(r'router', views.UserRouterModelView)
+"""异常处理和自定义Response"""
+from rest_framework.views import exception_handler
+from rest_framework.response import Response
+def re_exception_handler(exc, context):
+    response = exception_handler(exc, context)
+    if not response:
+        return APIResponse(1, 'errors: %s' % str(exc))
+    return APIResponse(1, response.data.get('detail'))
+class APIResponse(Response):
+    def __init__(self, code=0, message='OK', data=None, *args, **kwargs):
+        res_dict = {'code': code, 'message': message}
+        if data:
+            res_dict = {'code': code, 'message': message, 'data': data}
+        res_dict.update(kwargs)
+        super().__init__(data=res_dict, *args, **kwargs)
 ~~~
 
 ### setting.py
