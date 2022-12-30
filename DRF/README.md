@@ -10,6 +10,7 @@
   - serializer_related：序列化
   - views_related：视图相关，utils/filter_related&page_related
   - exception_response：异常处理和自定义Response，utils/exception_response
+  - practice：练习，practice
 
 ## 常用
 
