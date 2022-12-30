@@ -6,7 +6,6 @@ from sub_apps.practice.ser import TestGetSerializer, TestPostSerializer
 
 
 class TestView(GenericAPIView):
-    queryset = None
     serializer_class = TestGetSerializer
     post_serializer_class = TestPostSerializer
 
@@ -26,3 +25,11 @@ class TestView(GenericAPIView):
             return self.post_serializer_class
         else:
             return APIResponse(1, '请求不允许!')
+
+
+class BookAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        return APIResponse(0, )
+
+    def post(self, request, *args, **kwargs):
+        return APIResponse(0, )

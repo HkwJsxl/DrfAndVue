@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'sub_apps.access_frequency.apps.AccessFrequencyConfig',
     'sub_apps.serializer_related.apps.SerializerRelatedConfig',
     'sub_apps.views_related.apps.ViewsRelatedConfig',
+    'sub_apps.exception_response.apps.ExceptionResponseConfig',
+    'sub_apps.practice.apps.PracticeConfig',
 ]
 
 MIDDLEWARE = [
