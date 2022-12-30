@@ -11,7 +11,7 @@ urlpatterns = [
     path('test1/', views.TestView.as_view()),
     # 图书一堆关联表的增删查改
     path('books/', views.BookAPIView.as_view()),
-    path('books/<int:pk>', views.BookAPIView.as_view()),
+    path('books/<int:pk>/', views.BookAPIView.as_view()),
 
 ]
 
