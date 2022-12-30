@@ -72,7 +72,7 @@ class BookAPIView(APIView):
     #     if isinstance(data, dict):
     #         # 修改一条
     #         obj = models.Book.objects.filter(pk=pk, is_delete=False).first()
-    #         ser = BookModelSerializer(instance=obj, data=request.data)
+    #         ser = BookModelSerializer(instance=obj, data=request.data, partial=True)
     #         if not ser.is_valid():
     #             return APIResponse(1005, '数据校验失败!')
     #         ser.save()
@@ -93,12 +93,15 @@ class BookAPIView(APIView):
     #         return APIResponse(0, '传入数据不符合规范!')
 
     # 修改多条方法2,ser写list_serializer_class，重写update，继承serializers.ListSerializer
-    def put(self, request, pk=None, *args, **kwargs):
+    # 找不到修改的对象就会新增
+    def put(self, request, *args, **kwargs):
         data = request.data
         if isinstance(data, dict):
             # 修改一条
+            pk = data.get('pk', None)
             obj = models.Book.objects.filter(pk=pk, is_delete=False).first()
-            ser = BookModelSerializer(instance=obj, data=request.data)
+            ser = BookModelSerializer(instance=obj, data=request.data, partial=True)
+            # ser.is_valid(raise_exception=True)  # 自动报错
             if not ser.is_valid():
                 return APIResponse(1005, '数据校验失败!')
             ser.save()
@@ -110,9 +113,11 @@ class BookAPIView(APIView):
             for item in data:
                 pk = item.get('pk')
                 obj = models.Book.objects.filter(pk=pk, is_delete=False).first()
-                obj_list.append(obj)
-                modify_data_list.append(item)
-            ser = BookModelSerializer(instance=obj_list, data=modify_data_list, many=True)
+                # 查不到的obj不加入到列表中，None的时候后面会报错
+                if obj:
+                    obj_list.append(obj)
+                    modify_data_list.append(item)
+            ser = BookModelSerializer(instance=obj_list, data=modify_data_list, many=True, partial=True)
             if not ser.is_valid():
                 return APIResponse(1005, '数据校验失败!')
             ser.save()
@@ -136,3 +141,58 @@ class BookAPIView(APIView):
             except Exception as e:
                 return APIResponse(1, '删除失败!---%s' % e)
         return APIResponse(0, {'del_num': ret_num})
+
+
+class BookGenericAPIView(GenericAPIView):
+    queryset = models.Book.objects.all()
+    serializer_class = BookModelSerializer
+
+    def get(self, request, pk=None, *args, **kwargs):
+        if pk:
+            obj = self.get_object()
+            ser = self.serializer_class(instance=obj)
+        else:
+            obj = self.get_queryset()
+            ser = self.serializer_class(instance=obj, many=True)
+        return APIResponse(0, ser.data)
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        if isinstance(data, dict):
+            ser = self.serializer_class(data=data)
+        elif isinstance(data, list):
+            ser = self.serializer_class(data=data, many=True)
+        else:
+            return APIResponse(0, '传入数据不符合规范!')
+        if not ser.is_valid():
+            return APIResponse(1005, '数据校验失败!')
+        ser.save()
+        return APIResponse(data=ser.data)
+
+    def put(self, request, *args, **kwargs):
+        data = request.data
+        if isinstance(data, dict):
+            pk = data.get('pk')
+            obj = models.Book.objects.filter(pk=pk, is_delete=False).first()
+            ser = self.serializer_class(instance=obj, data=data, partial=True)
+            if not ser.is_valid():
+                return APIResponse(1005, '数据校验失败!')
+            ser.save()
+            return APIResponse(data=ser.data)
+        elif isinstance(data, list):
+            obj_list = []
+            modify_data_list = []
+            for item in data:
+                pk = item.get('pk')
+                obj = models.Book.objects.filter(pk=pk, is_delete=False).first()
+                # 找不到对象时，不能修改
+                if obj:
+                    obj_list.append(obj)
+                    modify_data_list.append(item)
+            ser = self.serializer_class(instance=obj_list, data=modify_data_list, many=True, partial=True)
+            if not ser.is_valid():
+                return APIResponse(1005, '数据校验失败!')
+            ser.save()
+            return APIResponse(data=ser.data)
+        else:
+            return APIResponse(0, '传入数据不符合规范!')
