@@ -135,7 +135,8 @@ REST_FRAMEWORK = {
     "ALLOWED_VERSIONS": ["v1"],
     "VERSION_PARAM": "version",
     # # 认证配置
-    # "DEFAULT_AUTHENTICATION_CLASSES": ["api.extension.auth.TokenAuthentication", ],
+    # "DEFAULT_AUTHENTICATION_CLASSES": ["api.extension.auth.TokenAuthentication", ],  # token放url后面
+    # "DEFAULT_AUTHENTICATION_CLASSES": ["api.extension.auth.TokenHeaderAuthentication", ],  # token放请求头里面
     # "UNAUTHENTICATED_USER": lambda: None,
     # "UNAUTHENTICATED_TOKEN": lambda: None,
     # # 分页配置
