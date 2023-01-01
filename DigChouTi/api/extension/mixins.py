@@ -38,5 +38,11 @@ class ReUpdateModelMixin(mixins.UpdateModelMixin):
 class ReDestroyModelMixin(mixins.DestroyModelMixin):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
+
+        # 验证传入的token是否跟用户token一致
+        user_token = instance.user.token
+        if request.auth != user_token:
+            return APIResponse(return_code.AUTH_FAILED, '认证错误!')
+
         res = self.perform_destroy(instance)
         return res or APIResponse()
