@@ -39,3 +39,20 @@ class TokenHeaderAuthentication(BaseAuthentication):
 
     def authenticate_header(self, request):
         return 'Bearer realm="API"'
+
+
+class UserAnonAuthentication(BaseAuthentication):
+    def authenticate(self, request):
+        token = request.META.get('HTTP_TOKEN')
+        if not token:
+            return None, None
+        user_obj = models.UserInfo.objects.filter(token=token).first()
+        if not user_obj:
+            raise AuthenticationFailed({'code': return_code.AUTH_FAILED, 'errors': '认证失败!'})
+        # token过期
+        if datetime.datetime.now() > user_obj.token_expiry_date:
+            raise AuthenticationFailed({'code': return_code.AUTH_OVERDUE, 'errors': '认证已过期!'})
+        return user_obj, token
+
+    def authenticate_header(self, request):
+        return 'Bearer realm="API"'

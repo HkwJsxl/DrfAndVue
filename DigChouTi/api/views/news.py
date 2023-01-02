@@ -5,9 +5,10 @@ from django_filters import filters, FilterSet
 
 from api import models
 from api.extension import mixins
-from api.seriazliers.news import NewsModelSerializer
+from api.seriazliers.news import NewsModelSerializer, IndexModelSerializer
 from api.extension.filter import SelfFilterBackend
 from api.extension.throttle import NewsRateThrottle
+from api.extension.auth import UserAnonAuthentication
 
 
 class NewsFilterSet(FilterSet):
@@ -48,3 +49,25 @@ class NewsView(
         if self.request.method == 'POST':
             return self.throttle_objects
         return []
+
+
+class IndexFilterSet(FilterSet):
+    latest_id = filters.NumberFilter(field_name='id', lookup_expr='lte')
+
+    class Meta:
+        model = models.News
+        fields = ('latest_id', 'zone')
+
+
+class IndexView(
+    mixins.ReListModelMixin,
+    GenericViewSet
+):
+    """首页"""
+    authentication_classes = [UserAnonAuthentication, ]
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = IndexFilterSet
+
+    queryset = models.News.objects.filter(deleted=False, status=2).order_by('-id')
+    serializer_class = IndexModelSerializer

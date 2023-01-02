@@ -14,7 +14,8 @@ router.register(r'register', account.RegView, 'register')
 router.register(r'topic', topic.TopicView, 'topic')
 # 资讯
 router.register(r'news', news.NewsView, 'news')
-
+# 首页
+router.register(r'zone', news.IndexView, 'zone')
 
 urlpatterns = [
     # 登录

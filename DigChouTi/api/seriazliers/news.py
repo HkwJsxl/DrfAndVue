@@ -82,4 +82,64 @@ class NewsModelSerializer(serializers.ModelSerializer):
         news_obj = models.News.objects.create(recommend_count=1, **validated_data)
         # 推荐记录
         models.Recommend.objects.create(news=news_obj, user=request.user)
+
         return news_obj  # 后续可以直接点点点，不用obj.get()取值
+
+
+class IndexTopicModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Topic
+        fields = ('id', 'title', 'is_hot')
+
+
+class IndexUserModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.UserInfo
+        fields = ('id', 'username',)
+
+
+class IndexModelSerializer(serializers.ModelSerializer):
+    """首页"""
+
+    zone = serializers.CharField(source='get_zone_display')
+
+    image_list = serializers.SerializerMethodField()
+    collect = serializers.SerializerMethodField()
+    recommend = serializers.SerializerMethodField()
+
+    topic = IndexTopicModelSerializer()
+    user = IndexUserModelSerializer()
+
+    class Meta:
+        model = models.News
+        fields = (
+            'id',
+            'title',
+            'url',
+            'image_list',
+            'zone',
+            'topic',
+            'user',
+            'create_datetime',
+            'collect',
+            'recommend',
+        )
+
+    def get_image_list(self, obj):
+        if not obj.image:
+            return None
+        return obj.image.split(',')
+
+    def get_collect(self, obj):
+        request = self.context['request']
+        if request.user:
+            is_exists = models.Collect.objects.filter(user=request.user, news=obj).exists()
+            return {'collect_count': obj.collect_count, 'has_collect': is_exists}
+        return {'collect_count': obj.collect_count, 'has_collect': False}
+
+    def get_recommend(self, obj):
+        request = self.context['request']
+        if request.user:
+            is_exists = models.Recommend.objects.filter(user=request.user, news=obj).exists()
+            return {'recommend_count': obj.recommend_count, 'has_recommend': is_exists}
+        return {'recommend_count': obj.recommend_count, 'has_recommend': False}
