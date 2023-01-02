@@ -7,6 +7,7 @@ from api import models
 from api.extension import mixins
 from api.seriazliers.news import NewsModelSerializer
 from api.extension.filter import SelfFilterBackend
+from api.extension.throttle import NewsRateThrottle
 
 
 class NewsFilterSet(FilterSet):
@@ -23,6 +24,9 @@ class NewsView(
     mixins.ReDestroyModelMixin,
     GenericViewSet
 ):
+    """新闻资讯"""
+
+    throttle_objects = [NewsRateThrottle(), ]
     filter_backends = [SelfFilterBackend, DjangoFilterBackend]
     filterset_class = NewsFilterSet
 
@@ -32,6 +36,15 @@ class NewsView(
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+        # 数据插入成功后执行done方法，插入频率限制缓存记录
+        for throttle in self.get_throttles():
+            throttle.done()
+
     def perform_destroy(self, instance):
         instance.deleted = True
         instance.save()
+
+    def get_throttles(self):
+        if self.request.method == 'POST':
+            return self.throttle_objects
+        return []

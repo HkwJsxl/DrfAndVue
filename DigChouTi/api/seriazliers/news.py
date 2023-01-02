@@ -5,6 +5,8 @@ from api import models
 
 
 class NewsModelSerializer(serializers.ModelSerializer):
+    """新闻资讯"""
+
     topic_title = serializers.CharField(source='topic.title', read_only=True)
     zone_title = serializers.CharField(source='get_zone_display', read_only=True)
     status_info = serializers.CharField(source='get_status_display', read_only=True)
@@ -43,6 +45,7 @@ class NewsModelSerializer(serializers.ModelSerializer):
         return obj.image.split(',')
 
     def validate_topic(self, obj):
+        # 专区可以为空
         if not obj:
             raise ValidationError('必须选择一个专区!')
         request = self.context['request']
@@ -68,6 +71,7 @@ class NewsModelSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # print(self.context)
+        # self.context中有三个值
         # {
         # 'request': <rest_framework.request.Request: POST '/api/news/'>,
         # 'format': None,
@@ -79,5 +83,3 @@ class NewsModelSerializer(serializers.ModelSerializer):
         # 推荐记录
         models.Recommend.objects.create(news=news_obj, user=request.user)
         return news_obj  # 后续可以直接点点点，不用obj.get()取值
-
-

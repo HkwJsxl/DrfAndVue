@@ -105,6 +105,20 @@ class APIResponse(Response):
             res_dict = {'code': code, 'message': message, 'data': data}
         res_dict.update(kwargs)
         super().__init__(data=res_dict, *args, **kwargs)
+        
+# 序列化类：self.context有三个值：request，format，view
+# GenericAPIView源码
+def get_serializer(self, *args, **kwargs):
+    serializer_class = self.get_serializer_class()
+    kwargs.setdefault('context', self.get_serializer_context())
+    return serializer_class(*args, **kwargs)
+def get_serializer_context(self):
+    return {
+        'request': self.request,
+        'format': self.format_kwarg,
+        'view': self
+    }
+
 ~~~
 
 ### setting.py
