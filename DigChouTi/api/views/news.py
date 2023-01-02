@@ -64,6 +64,7 @@ class IndexView(
     GenericViewSet
 ):
     """首页"""
+
     authentication_classes = [UserAnonAuthentication, ]
 
     filter_backends = [DjangoFilterBackend]

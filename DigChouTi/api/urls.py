@@ -2,6 +2,7 @@ from django.urls import path
 from api.views import account
 from api.views import topic
 from api.views import news
+from api.views import collect
 
 from rest_framework import routers
 
@@ -16,6 +17,8 @@ router.register(r'topic', topic.TopicView, 'topic')
 router.register(r'news', news.NewsView, 'news')
 # 首页
 router.register(r'zone', news.IndexView, 'zone')
+# 推荐
+router.register(r'collect', collect.CollectView, 'collect')
 
 urlpatterns = [
     # 登录
