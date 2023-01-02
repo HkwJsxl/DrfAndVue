@@ -11,7 +11,7 @@ from api.seriazliers.topic import TopicModelSerializer
 from api.extension.filter import SelfFilterBackend
 
 
-class SelfFilterSet(FilterSet):
+class TopicFilterSet(FilterSet):
     # ?latest_id=99             ->  id<=99
     # ?latest_id=99&limit=10    ->  id<=99  limit 10
     latest_id = filters.NumberFilter(field_name='id', lookup_expr='lte')
@@ -29,9 +29,9 @@ class TopicView(
     GenericViewSet
 ):
     filter_backends = [SelfFilterBackend, DjangoFilterBackend]
-    filterset_class = SelfFilterSet
+    filterset_class = TopicFilterSet
 
-    queryset = models.Topic.objects.filter(deleted=False).order_by('id')
+    queryset = models.Topic.objects.filter(deleted=False).order_by('-id')
     serializer_class = TopicModelSerializer
 
     def perform_create(self, serializer):
