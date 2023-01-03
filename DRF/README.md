@@ -58,6 +58,15 @@ class RateThrottle(SimpleRateThrottle):
             'detail': '需等待{}s才能访问'.format(int(wait))
         }
         raise ThrottledException(detail)
+    def parse_rate(self, rate):
+        """重写：五分钟1次限制"""
+        if rate is None:
+            return (None, None)
+        num, period = rate.split('/')
+        num_requests = int(num)
+        duration = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400}[period[-1]]
+        count = int(period[0:-1])
+        return num_requests, count * duration
 """钩子错误信息"""
 from rest_framework.exceptions import ValidationError
 """视图"""
