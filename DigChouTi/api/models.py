@@ -28,8 +28,10 @@ class UserInfo(DeletedModel):
         indexes = [
             models.Index(fields=['username', "password"], name='idx_name_pwd')
         ]
+
     def __str__(self):
         return self.username
+
 
 class Topic(DeletedModel):
     """ 话题 """
@@ -38,8 +40,10 @@ class Topic(DeletedModel):
     create_datetime = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
 
     user = models.ForeignKey(verbose_name="用户", to="UserInfo", on_delete=models.CASCADE)
+
     def __str__(self):
         return self.title
+
 
 class News(DeletedModel):
     """ 新闻资讯 """
@@ -108,4 +112,3 @@ class Comment(models.Model):
     create_datetime = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
 
     descendant_update_datetime = models.DateTimeField(verbose_name="后代更新时间", auto_now_add=True)
-
