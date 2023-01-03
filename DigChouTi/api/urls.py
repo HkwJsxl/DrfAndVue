@@ -4,6 +4,7 @@ from api.views import topic
 from api.views import news
 from api.views import collect
 from api.views import recommend
+from api.views import comment
 
 from rest_framework import routers
 
@@ -22,6 +23,9 @@ router.register(r'zone', news.IndexView, 'zone')
 router.register(r'collect', collect.CollectView, 'collect')
 # 推荐
 router.register(r'recommend', recommend.RecommendView, 'recommend')
+# 评论
+router.register(r'comment', comment.CommentView, 'comment')
+
 
 urlpatterns = [
     # 登录
