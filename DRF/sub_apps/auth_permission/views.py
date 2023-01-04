@@ -28,7 +28,7 @@ class RegView(APIView):
 class LoginView(APIView):
     versioning_class = QueryParameterVersioning
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [RolePermission, ]
+    # permission_classes = [RolePermission, ]
 
     def post(self, request):
         current_version = request.version
@@ -56,7 +56,7 @@ class OrderView(APIView):
 
 
 class AdminView(APIView):
-    permission_classes = [RolePermission, ]
+    # permission_classes = [RolePermission, ]
 
     def get(self, request):
         return Response({'status': 0, 'message': {'permission': '权限通过!'}})
