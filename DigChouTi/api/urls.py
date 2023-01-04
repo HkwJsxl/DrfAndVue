@@ -26,10 +26,9 @@ router.register(r'recommend', recommend.RecommendView, 'recommend')
 # 评论
 router.register(r'comment', comment.CommentView, 'comment')
 
-
 urlpatterns = [
     # 登录
-    path('login/', account.LoginView.as_view(), name='login')
+    path('login/', account.LoginView.as_view(), name='login'),
 ]
 
 urlpatterns += router.urls

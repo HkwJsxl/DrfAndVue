@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'sub_apps.views_related.apps.ViewsRelatedConfig',
     'sub_apps.exception_response.apps.ExceptionResponseConfig',
     'sub_apps.practice.apps.PracticeConfig',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -148,6 +149,9 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 2,  # 分页
 
     # 'EXCEPTION_HANDLER': 'utils.exception_response.re_exception_handler',  # 异常处理
+
+    # 接口文档-coreapi
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 CACHES = {

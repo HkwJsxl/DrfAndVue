@@ -8,6 +8,9 @@ from sub_apps.practice import models
 
 
 class TestView(GenericAPIView):
+    """
+    根据不同的请求返回不同的类.
+    """
     serializer_class = TestGetSerializer
     post_serializer_class = TestPostSerializer
 
@@ -30,6 +33,21 @@ class TestView(GenericAPIView):
 
 
 class BookAPIView(APIView):
+    """
+    图书相关-基于APIView
+
+    get:
+    返回图书信息.
+
+    post:
+    新增图书信息.
+
+    put:
+    修改图书信息.
+
+    delete:
+    删除图书.
+    """
     def get(self, request, pk=None, *args, **kwargs):
         if pk:
             # 查看一条
@@ -144,6 +162,9 @@ class BookAPIView(APIView):
 
 
 class BookGenericAPIView(GenericAPIView):
+    """
+    图书相关-基于GenericAPIView
+    """
     queryset = models.Book.objects.all()
     serializer_class = BookModelSerializer
 

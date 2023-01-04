@@ -1,8 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework.documentation import include_docs_urls
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+
     path('version_manage/',
          include(('sub_apps.version_manage.urls', 'sub_apps.version_manage'), namespace='version_manage')),
     path('auth_permission/',
@@ -18,4 +21,9 @@ urlpatterns = [
     path('practice/',
          include(('sub_apps.practice.urls', 'sub_apps.practice'), namespace='practice')),
 
+    # 自动生成接口文档
+    # coreapi
+    path('docs/', include_docs_urls(title='代码改变生活', description='自动生成接口文档')),
+    # swagger
+    # path('docs/', schema_view, name='docs'),
 ]
