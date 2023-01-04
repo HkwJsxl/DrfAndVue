@@ -291,5 +291,17 @@ Aerializer类里有to_representation方法，for循环执行attribute = field.ge
 当参数传过去，判断是方法就加括号执行，是属性就把值取出来
 ~~~
 
+### 阐述DRF频率限制组件的原理
 
+~~~
+写一个类，声明一个类变量（是一个字典），类初始化时有一个列表，该列表存储每个用户各自的每次访问的时间，
+然后就是逻辑，
+首先，去request.META中取出用户的IP地址，判断IP地址是否存在于字典中，
+如果不存在，直接用IP地址当key存储在字典中，表示第一次访问，返回True
+如果存在，接着往下走，
+循环判断当前时间减去列表最后一位时间是否大于60，大于60直接pop掉，
+小于60跳出循环，继续往下，
+判断列表长度是否已超过要限制的频率次数，超过返回False，没有超过直接把当前时间插入到列表首个位置。
+代码示例：https://github.com/HkwJsxl/DrfAndVue/blob/master/Practices/app01/throttle.py
+~~~
 
