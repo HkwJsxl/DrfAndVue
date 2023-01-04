@@ -83,6 +83,7 @@ class CommentView(
     # 第二种数据的展示方式
     def get_serializer_class(self):
         """根据请求方式的不同应用不同的类"""
-        if self.request.method == 'GET':
-            return ListCommentModelSerializer
+        if self.request:
+            if self.request.method == 'GET':
+                return ListCommentModelSerializer
         return self.serializer_class
