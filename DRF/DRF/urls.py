@@ -27,6 +27,8 @@ urlpatterns = [
          include(('sub_apps.exception_response.urls', 'sub_apps.exception_response'), namespace='exception_response')),
     path('practice/',
          include(('sub_apps.practice.urls', 'sub_apps.practice'), namespace='practice')),
+    path('jwt_related/',
+         include(('sub_apps.jwt_related.urls', 'sub_apps.jwt_related'), namespace='jwt_related')),
 
     # 自动生成接口文档
     # coreapi

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'sub_apps.exception_response.apps.ExceptionResponseConfig',
     'sub_apps.practice.apps.PracticeConfig',
     'rest_framework_swagger',
+    'rest_framework_jwt',
 ]
 
 MIDDLEWARE = [
@@ -138,6 +139,7 @@ REST_FRAMEWORK = {
     # "UNAUTHENTICATED_USER": lambda: None,  # 认证返回值
     # "UNAUTHENTICATED_TOKEN": lambda: None,
     # "DEFAULT_AUTHENTICATION_CLASSES": ['utils.auth_related.TokenAuthentication', ]  # 全局配置
+    # "DEFAULT_AUTHENTICATION_CLASSES": ['rest_framework_jwt.authentication.JSONWebTokenAuthentication', ],  # jwt认证
     # "DEFAULT_PERMISSION_CLASSES": ["utils.permission_related.RolePermission", ]
 
     # "DEFAULT_THROTTLE_CLASSES": ["utils.throttle_related.RateThrottle", ],  # 全局配置
@@ -163,4 +165,11 @@ CACHES = {
             "PASSWORD": "123456",
         }
     }
+}
+import datetime
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'utils.jwt_related.jwt_response_payload_handler',
+    # 过期时间
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(weeks=1),
 }

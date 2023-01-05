@@ -11,6 +11,25 @@
   - views_related：视图相关，utils/filter_related&page_related
   - exception_response：异常处理和自定义Response，utils/exception_response
   - practice：练习，practice
+    ~~~
+    图书一堆关联表的增删查改（APIView,GenericAPIView）
+    ~~~
+  - jwt_related：JWT，jwt_related
+    ~~~
+    1.控制jwt返回格式（utils/jwt_related）
+    2.自定义基于jwt的认证（sub_apps/jwt_related/utils）
+    3.多方式登录，自动签发
+    
+    使用jwt的JSONWebTokenAuthentication校验要加入一个权限控制
+    from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+    from rest_framework.permissions import IsAuthenticated
+    authentication_classes = [JSONWebTokenAuthentication, ]
+    permission_classes = [IsAuthenticated, ]
+    JWT_AUTH = {
+    # 控制jwt返回数据格式
+      'JWT_RESPONSE_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_response_payload_handler',
+    }
+    ~~~
 
 ## 常用
 
