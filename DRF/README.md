@@ -324,3 +324,55 @@ Aerializer类里有to_representation方法，for循环执行attribute = field.ge
 代码示例：https://github.com/HkwJsxl/DrfAndVue/blob/master/Practices/app01/throttle.py
 ~~~
 
+### 跨域问题及解决
+
+~~~
+xss：跨站脚本攻击，cors：跨域资源共享，csrf：跨站请求伪造
+
+1.同源策略：请求的url地址,必须与浏览器上的url地址处于同域上,也就是域名,端口,协议相同.
+2.CORS：跨域资源共享，允许不同的域来我的服务器拿数据
+3.CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）
+只要同时满足以下两大条件，就属于简单请求
+    （1) 请求方法是以下三种方法之一：
+        HEAD
+        GET
+        POST
+     （2）HTTP的头信息不超出以下几种字段：
+        Accept
+        Accept-Language
+        Content-Language
+        Last-Event-ID
+        Content-Type：只限于三个值application/x-www-form-urlencoded、multipart/form-data、text/plain
+        
+非简单请求举例：如果发送post请求，数据格式是json---非简单请求，非简单请求发两次，一次OPTIONS请求，一次真正的请求
+如果OPTIONS请求被拦截，真正的数据请求不会发出去
+
+解决：第三方>>>django-cors-headers, https://github.com/ottoyiu/django-cors-headers/
+pip install django-cors-headers
+注册app：'corsheaders',
+配置中间件：corsheaders.middleware.CorsMiddleware
+配置文件：
+# 允许跨域源
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    # 额外允许的请求头
+    'token',
+]
+~~~
