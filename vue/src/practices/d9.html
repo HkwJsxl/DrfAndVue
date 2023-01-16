@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+</head>
+<body>
+<h1>v-if</h1>
+<div id="app">
+    <h1 v-if="v1">阿里无人区</h1>
+
+
+    <h1 v-if="v2">去西藏</h1>
+    <h1 v-else>去新疆</h1>
+
+
+    <div v-if="v3 === '北京'">
+        <h1>天安门</h1>
+    </div>
+    <div v-else-if="v3 === '新疆'">
+        <h1>乌鲁木齐</h1>
+    </div>
+    <div v-else-if="v3 ==='西藏'">
+        <h1>拉萨</h1>
+    </div>
+    <div v-else>
+        <h1>大理</h1>
+    </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            v1: true,
+            v2: true,
+            v3: "新疆"
+        }
+    })
+</script>
+</body>
+</html>

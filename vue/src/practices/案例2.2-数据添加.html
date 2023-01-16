@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+    <style>
+        .penal {
+            border: 1px solid #dddddd;
+            margin: 20px 0 0 0;
+            padding: 10px;
+            border-bottom: 0;
+            background-color: #d9d9d9;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            padding: 8px;
+            vertical-align: top;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <h3 class="penal">表单区域</h3>
+    <div>
+        <div>
+            <label>姓名</label>
+            <input type="text" v-model="user">
+        </div>
+        <div>
+            <label>年龄</label>
+            <input type="text" v-model="age">
+            <input type="button" value="新建" @click="addUser">
+        </div>
+    </div>
+
+    <h3 class="penal">数据列表</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>姓名</td>
+            <td>年龄</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in dataList">
+            <td>{{ item.name }}</td>
+            <td>{{ item.age }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            user: "",
+            age: "",
+            dataList: [
+                {"name": "hkw", "age": 21},
+                {"name": "jon", "age": 22},
+            ]
+        },
+        methods: {
+            addUser: function () {
+                let row = {name: this.user, age: this.age};
+                this.dataList.push(row);
+                this.user = "";
+                this.age = "";
+            }
+        }
+    })
+</script>
+</body>
+</html>

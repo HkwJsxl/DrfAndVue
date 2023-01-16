@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+    <style>
+        .img {
+            border: 1px solid skyblue;
+        }
+    </style>
+</head>
+<body>
+<h1>v-bind</h1>
+<div id="app">
+    <img v-bind:src="imageUrl" v-bind:class="cls">
+</div>
+
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            imageUrl: 'https://img0.baidu.com/it/u=2953940086,3621245794&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1673370000&t=7c58aa22bbc7cba8f382c13e67844327',
+            cls: "img",
+        }
+    })
+</script>
+</body>
+</html>

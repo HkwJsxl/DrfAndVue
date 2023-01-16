@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>插值表达式</h1>
+    <div>我叫：{{ name }}，邮箱：{{ email }}</div>
+    <ul>
+        <li>{{ word1 + word2 }}</li>
+        <li>{{ num + 1 + 1 }}</li>
+        <li>{{ bool ? word1 : word2 }}</li>
+    </ul>
+    <input type="button" value="click" @click="change">
+</div>
+
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            name: '韩科伟',
+            email: '18533538210',
+            word1: '握手',
+            word2: '说你好',
+            num: 1,
+            bool: true
+        },
+        methods: {
+            change: function () {
+                this.name = "jon";
+                this.email = "666";
+                this.bool = false;
+            }
+        }
+    })
+</script>
+</body>
+</html>

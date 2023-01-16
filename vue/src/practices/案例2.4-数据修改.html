@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+    <style>
+        .penal {
+            border: 1px solid #dddddd;
+            margin: 20px 0 0 0;
+            padding: 10px;
+            border-bottom: 0;
+            background-color: #d9d9d9;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            padding: 8px;
+            vertical-align: top;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <h3 class="penal">表单区域</h3>
+    <div>
+        <div>
+            <label>姓名</label>
+            <input type="text" v-model="user">
+        </div>
+        <div>
+            <label>年龄</label>
+            <input type="text" v-model="age">
+            <input type="button" :value="title" @click="addUser">
+        </div>
+    </div>
+
+    <h3 class="penal">数据列表</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>姓名</td>
+            <td>年龄</td>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item,idx) in dataList">
+            <td>{{ item.name }}</td>
+            <td>{{ item.age }}</td>
+            <td>
+                <input type="button" value="删除" @click="deleteRow" :data-idx="idx"/>
+                <input type="button" value="编辑" @click="editRow" :data-idx="idx"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            editIndex: undefined,
+            title: "新建",
+            user: "",
+            age: "",
+            dataList: [
+                {"name": "hkw", "age": 21},
+                {"name": "jon", "age": 22},
+            ]
+        },
+        methods: {
+            addUser: function () {
+                if (this.editIndex) {
+                    // 修改
+                    this.dataList[this.editIndex].name = this.user;
+                    this.dataList[this.editIndex].age = this.age;
+                } else {
+                    let row = {name: this.user, age: this.age};
+                    this.dataList.push(row);
+                }
+                this.user = "";
+                this.age = "";
+                this.editIndex = undefined;
+                this.title = "新建";
+            },
+            deleteRow: function (event) {
+                // 根据索引删除dataList中的值
+                let idx = event.target.dataset.idx;
+                this.dataList.splice(idx, 1);
+            },
+            editRow: function (event) {
+                let idx = event.target.dataset.idx;
+                // let name = this.dataList[idx].name;
+                // let age = this.dataList[idx].age;
+                // let {id, name} = {id: 1, name: "武沛齐"};
+                // console.log(id, name);
+                let {name, age} = this.dataList[idx];
+                this.user = name;
+                this.age = age;
+                this.title = "编辑";
+                this.editIndex = idx;
+            }
+        }
+    })
+</script>
+</body>
+</html>

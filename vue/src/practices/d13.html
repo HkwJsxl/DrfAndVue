@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+    <script src="./vue-router.global.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .container {
+            width: 980px;
+            margin: 0 auto;
+        }
+
+        .menu {
+            height: 48px;
+            background-color: #499ef3;
+            line-height: 48px;
+
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="menu">
+        <div class="container">
+            <router-link to="/">Logo</router-link>
+            <router-link to="/home">首页</router-link>
+            <router-link to="/course">课程</router-link>
+            <router-link to="/news">资讯</router-link>
+        </div>
+    </div>
+    <div class="container">
+        <router-view></router-view>
+    </div>
+
+</div>
+
+<script>
+
+    const Home = {template: '<div>首页内容...</div>'}
+    const Course = {template: '<div>课程内容..</div>'}
+    const News = {template: '<div>资讯内容..</div>'}
+    const router = new VueRouter({
+        routes: [
+            {
+                path: '/',
+                component: Home
+            },
+            {
+                path: '/home',
+                component: Home
+            },
+            {path: '/course', component: Course},
+            {path: '/news', component: News}
+        ],
+    })
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            name: "武沛齐",
+        },
+        methods: {},
+        router: router
+    })
+</script>
+</body>
+</html>

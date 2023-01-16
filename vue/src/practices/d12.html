@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>=======当前页面=======</h1>
+    {{name}}
+
+    <h1>=======引入子组件=======</h1>
+    <Demo></Demo>
+    <Demo></Demo>
+    <Bb></Bb>
+    <Bb></Bb>
+    <hr/>
+    <Bb></Bb>
+</div>
+<script>
+    //创建子组件
+    const Demo = {
+        data:function() {
+            return {
+                msg: '哈哈哈哈哈'
+            }
+        },
+        template: `
+            <div>
+                <h1>{{msg}}</h1>
+                <input type="text" v-model="msg"/>
+                <input type="button" @click="showMeg" value="点我呀">
+            </div>
+        `,
+        methods: {
+            showMeg: function () {
+                alert(this.msg);
+            }
+        }
+    }
+
+    //创建子组件
+    const Bili = {
+        // 组件中的data是一个方法，并返回值（与Vue对象创建不同）
+        data:function() {
+            return {
+                dataList: [
+                    {"id": 1, "title": "路飞学城倒闭了"},
+                    {"id": 2, "title": "老板和保洁阿姨跑了"},
+                ]
+            }
+        },
+        template: `
+            <div>
+                <h1>数据列表</h1>
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>标题</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in dataList">
+                        <td>{{item.id}}</td>
+                        <td>{{item.title}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        `
+    }
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            name: "hkw",
+        },
+        components: {
+            Demo,
+            Bb: Bili
+        },
+        methods: {}
+    })
+</script>
+</body>
+</html>

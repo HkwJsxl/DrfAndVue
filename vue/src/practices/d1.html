@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--1.引入vue.js    -->
+    <script src="./vue@2.js"></script>
+</head>
+<body>
+<!-- 2.指定区域，该区域的内容希望由vue.js来接管。 -->
+<div id="app">
+    <h1>VUE上手</h1>
+    <div>我叫：{{ name }}，邮箱：{{ email }}</div>
+    <!--v-on简写@-->
+    <input type="button" value="点击更换" @click="change">
+</div>
+
+<script>
+    // 3.创建Vue对象，并关联指定HTML区域。
+    let app = new Vue({
+        el: '#app',
+        data: {
+            name: '韩科伟',
+            email: 'hkwJsxl@gmail.com'
+        },
+        methods: {
+            change: function () {
+                this.name = "jon";
+                this.email = "666";
+            }
+        }
+    })
+</script>
+</body>
+</html>

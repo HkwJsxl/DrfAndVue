@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+</head>
+<body>
+<h1>v-for</h1>
+<div id="app">
+    <div>
+        <ul>
+            <li v-for="(item, index) in dataList">{{ item }}---{{ index }}</li>
+        </ul>
+    </div>
+    <div>
+        <ul>
+            <li v-for="(value, key) in dataDict">{{ key }}---{{ value }}</li>
+        </ul>
+    </div>
+    <div>
+        <ul>
+            <li v-for="(item, index) in lst">{{ item.id }}---{{ item.name }}</li>
+        </ul>
+    </div>
+    <div>
+        <ul>
+            <li v-for="(item,idx) in lst">
+                <p v-for="(value,key) in item">{{ key }} {{ value }}</p>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            dataList: ["郭德纲", "于谦", "岳云鹏"],
+            dataDict: {
+                id: 1,
+                name: "hkw",
+                age: 18,
+            },
+            lst: [
+                {
+                    id: 1,
+                    name: "hkw",
+                    age: 18,
+                },
+                {
+                    id: 2,
+                    name: "jon",
+                    age: 18,
+                },
+                {
+                    id: 3,
+                    name: "lin",
+                    age: 18,
+                }
+            ]
+        }
+    })
+</script>
+</body>
+</html>

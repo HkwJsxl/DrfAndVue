@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+    <style>
+        .ig {
+            border: 2px solid red;
+        }
+
+        .info {
+            color: red;
+        }
+
+        .danger {
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>class</h1>
+<div id="app">
+    <img alt="" :src="imageUrl" :class="cls">
+
+    <h1 :class="{info:v1,danger:v2}">你好呀111</h1>
+    <h1 :class="clsDict">你好呀</h1>
+
+    <h2 :class="[a1,a2]"></h2>
+    <h2 :class="[1===1?a1:'y',a2]">111</h2>
+
+    <h3 :style="{color:clr,fontSize:size}">222</h3>
+    <h3 style="color: red;font-size: 19px">333</h3>
+
+    <input type="button" value="点我" v-on:click="clickMe">
+</div>
+
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            imageUrl: 'https://img0.baidu.com/it/u=2953940086,3621245794&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1673370000&t=7c58aa22bbc7cba8f382c13e67844327',
+            cls: "ig",
+            v1: true,
+            v2: true,
+            clsDict: {
+                info: false,
+                danger: false
+            },
+            a1: "info",
+            a2: "danger",
+            clr: "red",
+            size: "19px",
+        },
+        methods: {
+            clickMe: function () {
+                this.v1 = false;
+                this.v2 = false;
+            }
+        }
+    })
+</script>
+</body>
+</html>

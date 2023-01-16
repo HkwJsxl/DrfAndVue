@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+</head>
+<body>
+<h1>v-if</h1>
+<div id="app">
+    <a v-if="isLogin">{{ user }}</a>
+
+    <a v-else>登录</a>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            isLogin: true,
+            user: "hkw"
+        }
+    })
+</script>
+</body>
+</html>

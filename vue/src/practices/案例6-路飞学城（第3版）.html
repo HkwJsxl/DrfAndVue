@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+    <script src="./vue-router.global.js"></script>
+    <script src="./axios.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .container {
+            width: 1100px;
+            margin: 0 auto;
+        }
+
+        .menu {
+            height: 48px;
+            background-color: #499ef3;
+            line-height: 48px;
+
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0 10px;
+        }
+
+        .course-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .course-list .item {
+            width: 248px;
+            padding: 10px;
+            border: 1px solid #dddddd;
+            margin-right: 5px;
+            margin-top: 10px;
+        }
+
+        .course-list .item img {
+            width: 100%;
+            height: 120px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="menu">
+        <div class="container">
+            <router-link to="/">路飞学城</router-link>
+            <router-link to="/pins">沸点</router-link>
+            <router-link to="/home">首页</router-link>
+            <router-link to="/course">课程</router-link>
+            <router-link to="/news">资讯</router-link>
+        </div>
+    </div>
+    <div class="container">
+        <router-view></router-view>
+    </div>
+
+</div>
+
+<script>
+
+    const Home = {
+        data: function () {
+            return {
+                title: "欢迎使用路飞学城"
+            }
+        },
+        template: `<h2>{{title}}</h2>`
+    }
+    const Course = {
+        data: function () {
+            return {
+                courseList: []
+            }
+        },
+        created: function () {
+            /* 组件创建完成之后自动触发【此时组件的对象已创建，但还未将页面先关的DOM创建并显示在页面上】
+                 - 可以去操作组件对象，例如：this.courseList = [11,22,33]
+                 - 不可以去操作DOM，例如：document.getElementById （未创建）
+             */
+            axios({
+                method: "get",
+                url: 'https://api.luffycity.com/api/v1/course/actual/?limit=5&offset=0',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then((res) => {
+                this.courseList = res.data.data.result;
+            })
+
+        },
+        mounted: function () {
+            /* DOM对象已在页面上生成，此时就可以 */
+        },
+        template: `
+          <div class="course-list">
+
+          <div class="item" v-for="item in courseList">
+            <router-link :to="{name:'Detail',params:{id:item.id}}">
+              <img :src="item.cover" alt="">
+              <a>{{item.name}}</a>
+            </router-link>
+          </div>
+
+          </div>`
+    }
+    const News = {
+        data: function () {
+            return {
+                dataList: []
+            }
+        },
+        created: function () {
+            /* 组件创建完成之后自动触发【此时组件的对象已创建，但还未将页面先关的DOM创建并显示在页面上】
+                 - 可以去操作组件对象，例如：this.courseList = [11,22,33]
+                 - 不可以去操作DOM，例如：document.getElementById （未创建）
+             */
+            axios({
+                method: "get",
+                url: 'https://api.luffycity.com/api/v1/course/actual/?limit=5&offset=10',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then((res) => {
+                this.dataList = res.data.data.result;
+            })
+
+        },
+        template: `<ul><li v-for="item in dataList">{{item.name}}</li></ul>`
+    }
+    const Detail = {
+        data: function () {
+            return {
+                title: "详细页面",
+                courseId: null,
+                hotCourseList: [
+                    {id: 1000, title: "python全栈开发"},
+                    {id: 2000, title: "异步编程"},
+                ],
+            }
+        },
+        created: function () {
+            this.courseId = this.$route.params.id;
+            // 此处可以根据课程ID，发送ajax请求获取课程详细信息
+            this.getCourseDetail();
+        },
+        watch: {
+            $route: function (to, from) {
+                this.courseId = to.params.id;
+                this.getCourseDetail();
+            }
+        },
+        methods: {
+            getCourseDetail: function () {
+                // 根据this.courseId获取课程详细信息
+            }
+        },
+        template: `
+          <div>
+          <h2>课程详细页面</h2>
+          <div>当前课程ID为：{{courseId}}</div>
+          <h3>课程推荐</h3>
+          <ul>
+            <li v-for="item in hotCourseList">
+              <router-link :to="{name:'Detail', params:{id:item.id}}">{{item.title}}</router-link>
+            </li>
+          </ul>
+          </div>`
+    }
+
+    const Pins = {
+        data: function () {
+            return {}
+        },
+        template: `
+            <div>
+                <h2>沸点专区</h2>
+                <router-link :to="{name:'Hot'}">热点</router-link>
+                <router-link :to="{name:'Following'}">关注</router-link>
+                <router-view></router-view>
+            </div>
+         `
+    };
+
+    const Hot = {template: `<div><h2>Hot页面</h2></div>`};
+    const Following = {template: `<div><h2>Following页面</h2></div>`};
+
+    const router = new VueRouter({
+        routes: [
+            {path: '/', component: Home},
+            {path: '/home', component: Home},
+            {path: '/course', component: Course},
+            {path: '/news', component: News},
+            {path: '/detail:id', component: Detail, name: 'Detail'},
+            {
+                path: '/pins',
+                component: Pins,
+                name: 'Pins',
+                children: [
+                    {
+                        // 当 /pins/hot 匹配成功，
+                        // Hot组件 会被渲染在 Pins 的 <router-view> 中
+                        path: 'hot',
+                        component: Hot,
+                        name:'Hot'
+                    },
+                    {
+                        // 当 /pins/following 匹配成功，
+                        // Following组件 会被渲染在 Pins 的 <router-view> 中
+                        path: 'following',
+                        component: Following,
+                        name:'Following'
+                    }
+                ]
+            }
+        ],
+        //mode: 'history'
+    })
+
+    var app = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        router: router
+    })
+</script>
+</body>
+</html>

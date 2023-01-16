@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>
+        用户名：<input type="text" v-model="info.user">
+    </div>
+    <div>
+        密码：<input type="password" v-model="info.pwd">
+    </div>
+    <div>
+        性别：
+        <input type="radio" v-model="info.sex" value="1">男
+        <input type="radio" v-model="info.sex" value="2">女
+    </div>
+    <div>
+        爱好：
+        <input type="checkbox" v-model="info.hobby" value="11">篮球
+        <input type="checkbox" v-model="info.hobby" value="22">足球
+        <input type="checkbox" v-model="info.hobby" value="33">乒乓球
+    </div>
+    <div>
+        城市：
+        <select v-model="info.city">
+            <option value="sh">上海</option>
+            <option value="bj">北京</option>
+            <option value="sz">深圳</option>
+        </select>
+    </div>
+    <div>
+        擅长领域：
+        <select v-model="info.company" multiple>
+            <option value="11">技术</option>
+            <option value="22">销售</option>
+            <option value="33">运营</option>
+        </select>
+    </div>
+    <div>
+        其他：<textarea v-model="info.more"></textarea>
+    </div>
+
+    <input type="button" value="注 册" v-on:click="clickMe"/>
+</div>
+
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            info: {
+                user: "",
+                pwd: "",
+                sex: "2",
+                hobby: ["22"],
+                city: "sz",
+                company: ["22", "33"],
+                more: '...'
+            }
+        },
+        methods: {
+            clickMe: function () {
+                console.log(this.info);
+            },
+        }
+    })
+</script>
+</body>
+</html>

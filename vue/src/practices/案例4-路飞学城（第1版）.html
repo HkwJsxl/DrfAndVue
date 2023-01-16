@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue@2.js"></script>
+    <script src="./axios.min.js"></script>
+    <script src="./vue-router.global.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .container {
+            width: 1100px;
+            margin: 0 auto;
+        }
+
+        .menu {
+            height: 48px;
+            background-color: #499ef3;
+            line-height: 48px;
+
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0 10px;
+        }
+
+        .course-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .course-list .item {
+            width: 248px;
+            padding: 10px;
+            border: 1px solid #dddddd;
+            margin-right: 5px;
+            margin-top: 10px;
+        }
+
+        .course-list .item img {
+            width: 100%;
+            height: 120px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="menu">
+        <div class="container">
+            <router-link to="/">路飞学城</router-link>
+            <router-link to="/home">首页</router-link>
+            <router-link to="/course">课程</router-link>
+            <router-link to="/news">资讯</router-link>
+        </div>
+    </div>
+    <div class="container">
+        <router-view></router-view>
+    </div>
+
+</div>
+
+<script>
+
+    const Home = {
+        data: function () {
+            return {
+                title: "欢迎使用路飞学城"
+            }
+        },
+        template: `<h2>{{title}}</h2>`
+    }
+    const Course = {
+        data: function () {
+            return {
+                courseList: []
+            }
+        },
+        created: function () {
+            /* 组件创建完成之后自动触发【此时组件的对象已创建，但还未将页面先关的DOM创建并显示在页面上】
+                 - 可以去操作组件对象，例如：this.courseList = [11,22,33]
+                 - 不可以去操作DOM，例如：document.getElementById （未创建）
+             */
+            axios({
+                method: "get",
+                url: 'https://api.luffycity.com/api/v1/course/actual/?limit=5&offset=0',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then((res) => {
+                this.courseList = res.data.data.result;
+            })
+
+        },
+        mounted: function () {
+            /* DOM对象已在页面上生成，此时就可以 */
+        },
+        template: `
+            <div class="course-list">
+                <div class="item" v-for="item in courseList">
+                    <img :src="item.cover" alt="">
+                    <a>{{item.name}}</a>
+                </div>
+            </div>`
+    }
+    const News = {
+        data: function () {
+            return {
+                dataList: []
+            }
+        },
+        created: function () {
+            /* 组件创建完成之后自动触发【此时组件的对象已创建，但还未将页面先关的DOM创建并显示在页面上】
+                 - 可以去操作组件对象，例如：this.courseList = [11,22,33]
+                 - 不可以去操作DOM，例如：document.getElementById （未创建）
+             */
+            axios({
+                method: "get",
+                url: 'https://api.luffycity.com/api/v1/course/actual/?limit=5&offset=10',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then((res) => {
+                this.dataList = res.data.data.result;
+            })
+
+        },
+        template: `<ul><li v-for="item in dataList">{{item.name}}</li></ul>`
+    }
+
+    const router = new VueRouter({
+        routes: [
+            {path: '/', component: Home},
+            {path: '/home', component: Home},
+            {path: '/course', component: Course},
+            {path: '/news', component: News},
+        ],
+        //mode: 'history'
+    })
+
+    var app = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        router: router
+    })
+</script>
+</body>
+</html>
